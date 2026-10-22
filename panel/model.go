@@ -10,9 +10,12 @@ import (
 
 // Tunnel is one location/region entry managed by the panel.
 type Tunnel struct {
-	Name      string `json:"name"`
-	Region    string `json:"region"`
-	SocksPort int    `json:"socks_port"`
+	PrePinPoolSize    any    `json:"pre_pin_pool_size,omitempty"`
+	TargetServerEntry string `json:"target_server_entry,omitempty"`
+	PinnedServerIP    string `json:"pinned_server_ip,omitempty"`
+	Name              string `json:"name"`
+	Region            string `json:"region"`
+	SocksPort         int    `json:"socks_port"`
 }
 
 var namePattern = regexp.MustCompile(`^[a-z0-9][a-z0-9-]{1,30}$`)

@@ -73,7 +73,7 @@
         {{$lang := .Lang}}
         {{range .Tunnels}}
         <tr data-tunnel="{{.Name}}">
-          <td>{{.Name}}</td>
+          <td>{{.Name}}{{if .PinnedServerIP}}<div class="note mono" title="{{t $lang "pin.note"}}">{{t $lang "pin.locked"}}: {{.PinnedServerIP}}</div>{{end}}</td>
           <td class="mono">{{.Region}}</td>
           <td class="mono">127.0.0.1:{{.SocksPort}}</td>
           <td><span class="badge {{.StatusClass}}" data-role="status" data-status="{{.Status}}">{{t $lang (printf "status.%s" .Status)}}</span></td>
@@ -88,6 +88,11 @@
           </td>
           <td>
             <div class="actions">
+              {{if .PinnedServerIP}}
+              <form class="inline" method="post" action="{{url "/tunnels/"}}{{.Name}}/unpin"><button class="btn-muted btn-sm" type="submit">{{t $lang "pin.unlock"}}</button></form>
+              {{else}}
+              <form class="inline" method="post" action="{{url "/tunnels/"}}{{.Name}}/pin" onsubmit="return confirm({{t $lang "pin.confirm"}});"><button class="btn-muted btn-sm" type="submit">{{t $lang "pin.lock"}}</button></form>
+              {{end}}
               <form class="inline js-tunnel-action" data-action="restart" method="post" action="{{url "/tunnels/"}}{{.Name}}/restart"><button class="btn-muted btn-sm" type="submit">{{t $lang "action.restart"}}</button></form>
               <form class="inline js-tunnel-action" data-action="stop" method="post" action="{{url "/tunnels/"}}{{.Name}}/stop"><button class="btn-danger btn-sm" type="submit">{{t $lang "action.stop"}}</button></form>
               <form class="inline js-tunnel-action" data-action="remove" data-confirm="{{tf $lang "action.remove.confirm" .Name}}" method="post" action="{{url "/tunnels/"}}{{.Name}}/remove"><button class="btn-danger btn-sm" type="submit">{{t $lang "action.remove"}}</button></form>

@@ -127,13 +127,33 @@ func writeTunnelConfig(configsDir, dataDir string, t Tunnel, creds psiphonCreds)
 	cfg["ListenInterface"] = "lo"
 	cfg["DisableLocalSocksProxy"] = false
 	cfg["DataRootDirectory"] = dir
+	if t.TargetServerEntry != "" {
+		cfg["TargetServerEntry"] = t.TargetServerEntry
+		cfg["TunnelPoolSize"] = 1
+	}
 
 	body, err := json.MarshalIndent(cfg, "", "  ")
 	if err != nil {
 		return err
 	}
 	path := filepath.Join(configsDir, t.Name+".json")
-	return os.WriteFile(path, body, 0o600)
+	return atomicPrivateWrite(path, body)
+}
+
+func atomicPrivateWrite(path string, body []byte) error {
+	f, err := os.CreateTemp(filepath.Dir(path), ".config-*")
+	if err != nil {
+		return err
+	}
+	defer os.Remove(f.Name())
+	if _, err = f.Write(body); err != nil {
+		f.Close()
+		return err
+	}
+	if err = f.Close(); err != nil {
+		return err
+	}
+	return os.Rename(f.Name(), path)
 }
 
 func setDefault(m map[string]any, key string, val any) {

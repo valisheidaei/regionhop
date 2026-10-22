@@ -83,6 +83,11 @@ func t(lang, key string) string {
 
 var translations = map[string]map[string]string{
 	"en": {
+		"pin.lock":                    "Pin server",
+		"pin.unlock":                  "Unpin server",
+		"pin.locked":                  "Pinned server",
+		"pin.note":                    "Server address, not a guaranteed static exit IP. No fallback if unavailable.",
+		"pin.confirm":                 "Briefly disconnect and pin the current server? No fallback if it fails. Psiphon may still change its exit IP.",
 		"nav.credentials":             "Settings",
 		"nav.dashboard":               "Dashboard",
 		"nav.logout":                  "Log out",
@@ -222,6 +227,11 @@ var translations = map[string]map[string]string{
 		"updating.back":               "Back to dashboard now",
 	},
 	"fa": {
+		"pin.lock":                    "قفل سرور",
+		"pin.unlock":                  "آزادکردن سرور",
+		"pin.locked":                  "سرور قفل‌شده",
+		"pin.note":                    "آدرس سرور است؛ تضمین IP خروجی ثابت نیست. هنگام خرابی سرور جایگزین نمی‌شود.",
+		"pin.confirm":                 "با قطع کوتاه اتصال، سرور فعلی قفل شود؟ هنگام خرابی سرور جایگزین نمی‌شود. سایفون همچنان می‌تواند IP خروجی را تغییر دهد.",
 		"nav.credentials":             "تنظیمات",
 		"nav.dashboard":               "داشبورد",
 		"nav.logout":                  "خروج",

@@ -4,6 +4,10 @@
 
 # regionhop
 
+> **Custom pinned-server panel:** this fork adds **Pin server / Unpin server** per tunnel. Pinning selects one Psiphon server exclusively; it does **not** guarantee a static public exit IP. See [Persian installation guide](PINNING.fa.md).
+>
+> For an **existing RegionHop installation**, use [`install-pin.sh`](install-pin.sh), after the [panel release workflow](https://github.com/valisheidaei/regionhop/actions/workflows/pin-panel.yml) finishes. The original `install.sh` below still installs the upstream project. Custom panel binaries are available under [Releases](https://github.com/valisheidaei/regionhop/releases).
+
 **Multi-region Psiphon tunnel manager for a single Linux server.**
 Web panel + SSH CLI. SOCKS proxies stay local to the box — always.
 

@@ -266,13 +266,14 @@ type regionOpt struct {
 }
 
 type row struct {
-	Name        string
-	Region      string
-	SocksPort   int
-	Status      string
-	StatusClass string
-	ExitRegion  string
-	ExitFlagURL string
+	PinnedServerIP string
+	Name           string
+	Region         string
+	SocksPort      int
+	Status         string
+	StatusClass    string
+	ExitRegion     string
+	ExitFlagURL    string
 }
 
 // buildRows computes each location's live status/exit info. Called both for
@@ -348,7 +349,8 @@ func (a *app) computeRows() ([]row, error) {
 				class = "inactive"
 			}
 			rows[i] = row{
-				Name: t.Name, Region: regionLabel(t.Region), SocksPort: t.SocksPort,
+				PinnedServerIP: t.PinnedServerIP,
+				Name:           t.Name, Region: regionLabel(t.Region), SocksPort: t.SocksPort,
 				Status: info.State, StatusClass: class,
 				ExitRegion: exitRegionLabel(info.Region), ExitFlagURL: flagImageURL(info.Region),
 			}
@@ -594,6 +596,9 @@ func (a *app) handleTunnelAction(w http.ResponseWriter, r *http.Request) {
 	}
 
 	switch action {
+	case "pin", "unpin":
+		a.handlePin(w, r, name, action == "pin")
+		return
 	case "logs":
 		out, _ := tunnelLogs(name, 200)
 		tmpl.ExecuteTemplate(w, "logs.html", withLang(r, map[string]any{"Name": name, "Logs": out}))
